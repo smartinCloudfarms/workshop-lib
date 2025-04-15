@@ -1,4 +1,5 @@
 val scala3Version = "3.6.4"
+val scala2Version = "2.13.16"
 
 val credentialsViaEnvVariables = for {
   username <- sys.env.get("MAVEN_WRITE_USERNAME")
@@ -15,6 +16,7 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
+    crossScalaVersions := Seq(scala3Version, scala2Version),
 
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test
   )
