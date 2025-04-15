@@ -27,5 +27,22 @@ jobs:
       - name: Compile & test
         run: sbt compile test
 
+
+  publish:
+    timeout-minutes: 240
+    if: ${{ github.ref == 'refs/heads/master' }}
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    container:
+      image: sbtscala/scala-sbt:graalvm-community-22.0.1_1.10.11_3.6.4
+    env:
+      MAVEN_WRITE_USERNAME: ${{ secrets.MAVEN_WRITE_USERNAME }}
+      MAVEN_WRITE_PASSWORD: ${{ secrets.MAVEN_WRITE_PASSWORD }}
+    strategy:
+      matrix:
+        scala-version: [ 3.6.4, 2.13.16 ]
+    steps:
+      - uses: actions/checkout@v4
       - name: Publish
-        run: sbt publish
+        run: sbt ++${{ matrix.scala-version }} publish
