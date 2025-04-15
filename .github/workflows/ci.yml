@@ -23,3 +23,6 @@ jobs:
 
       - name: Compile & test
         run: sbt compile test
+
+      - name: Publish
+        run: sbt publish
